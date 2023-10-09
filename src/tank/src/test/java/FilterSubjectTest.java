@@ -43,7 +43,7 @@ public class FilterSubjectTest {
     }
 
     @Test
-    public void testFilterSubject() {
+    public void testFilterSubject() { //verifica que el filtro se cree correctamente
         FilterSubject filter = new FilterSubject("Important");
         Filter filterManager = new Filter("FilterSubjectTest");
         filterManager.filter(emails, filter);
@@ -54,7 +54,7 @@ public class FilterSubjectTest {
     }
 
     @Test
-    public void testCumpleFiltro_WhenItsTrue() {
+    public void testCumpleFiltro_WhenItsTrue() { //Verifica que el mail identifique que un mail cumple el criterio
         
         String subject = "Important Subject";
         String keyword = "Important";
@@ -67,7 +67,7 @@ public class FilterSubjectTest {
     }
 
     @Test
-    public void testCumpleFiltro_WhenItsFalse() {
+    public void testCumpleFiltro_WhenItsFalse() { //Verifica que el mail identifique que un mail no cumple el criterio
         // Arrange
         String subject = "Regular Subject";
         String keyword = "Important";

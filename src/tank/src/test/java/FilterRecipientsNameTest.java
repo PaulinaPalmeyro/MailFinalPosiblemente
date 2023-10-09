@@ -28,7 +28,7 @@ import battle2023.ucp.Entities.FilterRecipientNameAndContentKeyword;
 
 public class FilterRecipientsNameTest {
     @Test
-    public void testFilterRecipientsName() {
+    public void testFilterRecipientsName() { //Verifica que el mail identifique que un mail cumple el criterio
         Contact recipient1 = new Contact("Recipient1", "recipient1@example.com");
         Contact recipient2 = new Contact("Recipient2", "recipient2@example.com");
         Contact recipient3 = new Contact("Recipient3", "recipient3@example.com");
@@ -53,7 +53,7 @@ public class FilterRecipientsNameTest {
     }
 
     @Test
-    public void testFilterRecipientsNameNoMatch() {
+    public void testFilterRecipientsNameNoMatch() { //Verifica que el mail identifique que un mail no cumple el criterio
         Contact recipient1 = new Contact("Recipient1", "recipient1@example.com");
         Contact recipient2 = new Contact("Recipient2", "recipient2@example.com");
 

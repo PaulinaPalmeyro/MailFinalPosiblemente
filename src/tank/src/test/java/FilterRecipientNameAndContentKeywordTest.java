@@ -28,7 +28,7 @@ import battle2023.ucp.Entities.FilterRecipientNameAndContentKeyword;
 public class FilterRecipientNameAndContentKeywordTest {
     
     @Test
-    public void testCumpleFiltroWithMatchingCriteria() {
+    public void testCumpleFiltroWithMatchingCriteria() { //Verifica que el mail identifique que un mail cumple el criterio
         // Create a test email
         Contact recipient = new Contact("John Doe", "john@example.com");
         List<Contact> recipients = new ArrayList<>();
@@ -46,7 +46,7 @@ public class FilterRecipientNameAndContentKeywordTest {
     }
 
     @Test
-    public void testCumpleFiltroWithNonMatchingRecipientName() {
+    public void testCumpleFiltroWithNonMatchingRecipientName() { //Verifica que el mail identifique el mail no cumple uno de los criterios
         // Create a test email
         Contact recipient = new Contact("Jane Smith", "jane@example.com");
         List<Contact> recipients = new ArrayList<>();
@@ -65,7 +65,7 @@ public class FilterRecipientNameAndContentKeywordTest {
 
 
     @Test
-    public void testCumpleFiltroWithNonMatchingContentKeyword() {
+    public void testCumpleFiltroWithNonMatchingContentKeyword() { //Verifica que el mail identifique el mail no cumple uno de los criterios
         // Create a test email
         Contact recipient = new Contact("John Doe", "john@example.com");
         List<Contact> recipients = new ArrayList<>();

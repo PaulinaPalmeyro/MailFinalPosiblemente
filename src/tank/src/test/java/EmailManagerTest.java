@@ -19,8 +19,7 @@ public class EmailManagerTest {
     }
 
     @Test
-    public void testCreateContact() {
-        // Test creating a contact
+    public void testCreateContact() { //se puede crear un contacto
         Contact contact = emailManager.createContact("John Doe", "johndoe@example.com");
         assertNotNull(contact);
         assertEquals("John Doe", contact.getName());
@@ -28,8 +27,7 @@ public class EmailManagerTest {
     }
 
     @Test
-    public void testCreateContactWithInvalidEmail() {
-        // Test creating a contact with an invalid email
+    public void testCreateContactWithInvalidEmail() { //no se puede crear un contacto sin @ en email manager
         try {
             emailManager.createContact("Invalid Contact", "invalid_email");
         } catch (IllegalArgumentException e) {
@@ -38,8 +36,7 @@ public class EmailManagerTest {
     }
 
     @Test
-    public void testCreateContactWithNullEmail() {
-        // Test creating a contact with a null email
+    public void testCreateContactWithNullEmail() { //contacto con mail nulo
         try {
             emailManager.createContact("Null Email Contact", null);
         } catch (IllegalArgumentException e) {

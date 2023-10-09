@@ -14,6 +14,7 @@ import org.junit.Test;
 import battle2023.ucp.Entities.Contact;
 import battle2023.ucp.Entities.Email;
 import battle2023.ucp.Entities.EmailManager;
+import battle2023.ucp.Entities.Mailbox;
 
 
 public class EmailTest {
@@ -36,7 +37,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testCreateValidEmail() {
+    public void testCreateValidEmail() { //verifica que se cree el mail con todos sus componentes
         Email email = Email.createEmail("Hello", "This is a test email", sender, recipients);
         assertNotNull(email);
         assertEquals("Hello", email.getSubject());
@@ -45,41 +46,39 @@ public class EmailTest {
         assertEquals(recipients, email.getRecipients());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class) //verifica que no se puede crear el mail con remitente nulo
     public void testCreateEmailWithNullSender() {
         Email.createEmail("Hello", "This is a test email", null, recipients);
     }
 
     @Test
-    public void testGetSubject() {
+    public void testGetSubject() { //verifica que el tema sea correcto
         Email email = Email.createEmail("Hello", "This is a test email", sender, recipients);
         assertEquals("Hello", email.getSubject());
     }
 
     @Test
-    public void testGetContent() {
+    public void testGetContent() { //verifica que el contenido sea correcto
         Email email = Email.createEmail("Hello", "This is a test email", sender, recipients);
         assertEquals("This is a test email", email.getContent());
     }
 
     @Test
-    public void testGetSender() {
+    public void testGetSender() { //verifica que el remitente sea correcto
         Email email = Email.createEmail("Hello", "This is a test email", sender, recipients);
         assertEquals(sender, email.getSender());
     }
 
     @Test
-    public void testGetRecipients() {
+    public void testGetRecipients() { //verifica que el para sea correcto
         Email email = Email.createEmail("Hello", "This is a test email", sender, recipients);
         assertEquals(recipients, email.getRecipients());
     }
 
     @Test
-    public void testCreateEmailWithoutSender() {
-        // Create some contacts
+    public void testCreateEmailWithoutSender() { ////verifica que no se pueda crear el mail sin remitente
         Contact recipient = emailManager.createContact("Recipient Name", "recipient@example.com");
 
-        // Create an email without a sender
         List<Contact> recipients = new ArrayList<>();
         recipients.add(recipient);
         try {
@@ -90,6 +89,39 @@ public class EmailTest {
         }
     }
 
+    @Test
+    public void testSending100Emails() {
+        // Create a list of contacts
+        List<Contact> contacts = new ArrayList<>();
+        for (int i = 1; i <= 100; i++) {
+            Contact contact = emailManager.createContact("Recipient " + i, "recipient" + i + "@example.com");
+            contacts.add(contact);
+        }
+
+        // Create a sender contact
+        Contact sender = emailManager.createContact("Sender", "sender@example.com");
+
+        // Create mailboxes for sender and recipients
+        Mailbox senderMailbox = Mailbox.senderMailbox(sender, emailManager.getMailboxes());
+        List<Mailbox> recipientMailboxes = new ArrayList<>();
+        for (Contact recipient : contacts) {
+            recipientMailboxes.add(Mailbox.recipientMailbox(recipient, emailManager.getMailboxes()));
+        }
+
+        // Send 100 emails from the sender to recipients
+        for (Contact recipient : contacts) {
+            List<Contact> recipientList = new ArrayList<>();
+            recipientList.add(recipient);
+            Email email = Email.createEmail("Test Subject", "Test Content", sender, recipientList);
+            senderMailbox.addSentEmail(email);
+            recipientMailboxes.get(contacts.indexOf(recipient)).addReceivedEmail(email);
+        }
+
+        // Verify that each recipient has received an email
+        for (Mailbox mailbox : recipientMailboxes) {
+            assertEquals(1, mailbox.getReceivedEmails().size());
+        }
+    }
     
     
 

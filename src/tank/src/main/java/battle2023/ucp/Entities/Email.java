@@ -40,5 +40,7 @@ public class Email {
         Email email = new Email(subject, content, sender, recipients);
         return email;
     }
+
+    
 }
 

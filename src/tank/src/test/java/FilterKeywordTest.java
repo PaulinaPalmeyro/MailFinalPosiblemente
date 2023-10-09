@@ -19,12 +19,11 @@ public class FilterKeywordTest {
 
     @Before
     public void setUp() {
-        // Initialize the filter with a keyword for testing
         filter = new FilterKeyword("important");
     }
 
     @Test
-    public void testCumpleFiltroWithMatchingKeyword() {
+    public void testCumpleFiltroWithMatchingKeyword() { //Verifica que el mail identifique que un mail cumple el criterio
         // Create an email with content containing the keyword
         Email email = new Email("Subject", "This is an important email.", null, null);
 
@@ -33,7 +32,7 @@ public class FilterKeywordTest {
     }
 
     @Test
-    public void testCumpleFiltroWithNonMatchingKeyword() {
+    public void testCumpleFiltroWithNonMatchingKeyword() { //Verifica que el mail identifique que ningun mail cumple el criterio
         // Create an email with content that doesn't contain the keyword
         Email email = new Email("Subject", "This is a regular email.", null, null);
 
