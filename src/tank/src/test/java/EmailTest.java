@@ -1,6 +1,5 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import battle2023.ucp.Entities.Mailbox;
 import battle2023.ucp.Entities.Contact;
 import battle2023.ucp.Entities.Email;
 import battle2023.ucp.Entities.EmailManager;
