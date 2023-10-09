@@ -16,4 +16,19 @@ public class EmailManager {
         contacts.add(contact);
         return contact;
     }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public List<Mailbox> getMailboxes() {
+        return mailboxes;
+    }
+        
+
+
+        
+
+
+    
 }
