@@ -23,6 +23,8 @@ public class EmailTest {
     private Contact sender;
     private List<Contact> recipients;
     private EmailManager emailManager;
+    private Contact recipient;
+    private Email email;
 
     @Before
     public void setUp() {
@@ -31,6 +33,8 @@ public class EmailTest {
         recipients.add(new Contact("Alice", "alice@example.com"));
         recipients.add(new Contact("Bob", "bob@example.com"));
         emailManager = new EmailManager();
+        recipient = emailManager.createContact("Recipient", "recipient@example.com");
+        email = Email.createEmail("Test Subject", "Test Content", sender, new ArrayList<>());
     }
 
     @Test
@@ -87,4 +91,8 @@ public class EmailTest {
             assertEquals("Sender cannot be null", e.getMessage());
         }
     }
+
+    
+    
+
 }

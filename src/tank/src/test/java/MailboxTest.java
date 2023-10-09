@@ -25,6 +25,7 @@ public class MailboxTest {
     private EmailManager emailManager;
     private Contact contact1;
     private Contact contact2;
+    private Email email;
 
     @Before
     public void setUp() {
@@ -34,6 +35,7 @@ public class MailboxTest {
         emailManager = new EmailManager();
         contact1 = emailManager.createContact("John Doe", "john@example.com");
         contact2 = emailManager.createContact("Jane Smith", "jane@example.com");
+        email = Email.createEmail("Test Subject", "Test Content", sender, new ArrayList<>());
     }
 
     @Test
@@ -101,6 +103,43 @@ public class MailboxTest {
      
 
     }
+
+    @Test
+    public void testSendEmailToExistingRecipient() {
+        // Create an email
+        Email email = Email.createEmail("Test Subject", "Test Content", sender, new ArrayList<>());
+        email.getRecipients().add(recipient);
+
+        // Get the recipient's mailbox
+        Mailbox recipientMailbox = Mailbox.recipientMailbox(recipient, mailboxes);
+
+        // Send the email
+        recipientMailbox.addReceivedEmail(email);
+
+        // Check if the email is in the recipient's mailbox
+        List<Email> receivedEmails = recipientMailbox.getReceivedEmails();
+        assertTrue(receivedEmails.contains(email));
+    }
+
+    @Test
+    public void testSendEmailToNonExistentMailbox() {
+        // Create an email with a recipient that doesn't exist in any mailbox
+        List<Mailbox> mailboxes = new ArrayList<>();
+        Mailbox mailbox = Mailbox.senderMailbox(sender, mailboxes);
+        emailManager.getContacts().remove(recipient); // Simulate that recipient doesn't exist in contacts
+
+        // Send the email
+        mailbox.addSentEmail(email);
+
+        // Check if a new mailbox is created
+        assertNotNull(mailbox);
+        assertEquals(1, mailboxes.size()); // A new mailbox should be created
+
+        // Check if the email is added to the sender's mailbox
+        assertEquals(1, mailbox.getSentEmails().size());
+        assertEquals(email, mailbox.getSentEmails().get(0));
+    }
+
     
     }
 
