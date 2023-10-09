@@ -5,6 +5,7 @@ import battle2023.ucp.interfaces.MailFilter;
 public class FilterRecipientNameAndContentKeyword implements MailFilter {
     private String recipientName;
     private String keyword;
+    
 
     public FilterRecipientNameAndContentKeyword(String recipientName, String keyword) {
         this.recipientName = recipientName;
