@@ -51,10 +51,15 @@ public class MailboxTest {
     @Test
     public void testAddReceivedEmail() {
         Mailbox mailbox = Mailbox.recipientMailbox(recipient, mailboxes);
-        Email email = Email.createEmail("Test Subject", "Test Content", sender, List.of(recipient));
-
+        
+        // Create an empty list of recipients
+        List<Contact> recipients = new ArrayList<>();
+        recipients.add(recipient); // Add the recipient to the list
+    
+        Email email = Email.createEmail("Test Subject", "Test Content", sender, recipients);
+    
         mailbox.addReceivedEmail(email);
-
+    
         assertTrue(mailbox.getReceivedEmails().contains(email));
     }
 
