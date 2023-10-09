@@ -8,21 +8,21 @@ import java.util.stream.Collectors;
 import battle2023.ucp.interfaces.MailFilter;
 
 public class Filter {
-    private String nombre;
-    private List<Email> mailsEncontrados = new ArrayList<>();
+    private String name;
+    private List<Email> foundEmails = new ArrayList<>();
 
-    public Filter(String nombre) {
-        this.nombre = nombre;
+    public Filter(String name) {
+        this.name = name;
     }
 
-    public void filter(List<Email> correos, MailFilter filtroCorreo) {
-        mailsEncontrados = correos.stream()
+    public void filter(List<Email> mails, MailFilter filtroCorreo) {
+        foundEmails = mails.stream()
                 .filter(email -> filtroCorreo.cumpleFiltro(email))
                 .collect(Collectors.toList());
     }
 
-    public List<Email> getMailsEncontrados() {
-        return mailsEncontrados;
+    public List<Email> getFoundEmails() {
+        return foundEmails;
     }
 
     

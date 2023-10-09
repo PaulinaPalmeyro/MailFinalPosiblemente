@@ -3,15 +3,15 @@ package battle2023.ucp.Entities;
 import battle2023.ucp.interfaces.MailFilter;
 
 public class FilterSubject implements MailFilter{
-    private String asunto;
+    private String subject;
 
-    public FilterSubject(String asunto) {
-        this.asunto = asunto;
+    public FilterSubject(String subject) {
+        this.subject = subject;
     }
 
     @Override
     public boolean cumpleFiltro(Email email) {
-        return email.getSubject().contains(asunto);
+        return email.getSubject().contains(subject);
     }
     
 }
