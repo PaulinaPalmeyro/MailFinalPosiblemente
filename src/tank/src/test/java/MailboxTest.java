@@ -36,11 +36,11 @@ public class MailboxTest {
     @Before
     public void setUp() {
         mailboxes = new ArrayList<>();
-        sender = new Contact("John Doe", "john.doe@example.com");
-        recipient = new Contact("Jane Smith", "jane.smith@example.com");
+        sender = new Contact("Paulina", "paulina.totoro@example.com");
+        recipient = new Contact("Ori", "ori.farela@example.com");
         emailManager = new EmailManager();
-        contact1 = emailManager.createContact("John Doe", "john@example.com");
-        contact2 = emailManager.createContact("Jane Smith", "jane@example.com");
+        contact1 = emailManager.createContact("Paulina", "paulina@example.com");
+        contact2 = emailManager.createContact("Ori", "ori@example.com");
         email = Email.createEmail("Test Subject", "Test Content", sender, new ArrayList<>());
     }
 
@@ -99,7 +99,7 @@ public class MailboxTest {
 
     @Test
     public void testMailboxExistence() {
-        Contact sender = emailManager.createContact("John Doe", "john@example.com");
+        Contact sender = emailManager.createContact("Paulina", "paulina@example.com");
         Contact recipient = emailManager.createContact("Alice Smith", "alice@example.com");
         List<Contact> recipients = new ArrayList<>();
         recipients.add(recipient);
@@ -198,6 +198,77 @@ public class MailboxTest {
         }
     }
 
+    @Test
+    public void subjectExistsInRecepientsMailbox() {
+        // Create a subject to search for
+        String subjectToSearch = "Important Subject";
+
+        // Create a single mailbox
+        Mailbox mailbox = new Mailbox();
+
+        // Create a sender and recipient
+        Contact sender = emailManager.createContact("Sender", "sender@example.com");
+        Contact recipient = emailManager.createContact("Recipient", "recipient@example.com");
+
+        // Create an email with the same subject and one recipient
+        Email email = Email.createEmail(subjectToSearch, "Email content", sender, List.of(recipient));
+
+        // Add the email to the mailbox
+        mailbox.addReceivedEmail(email);
+
+        // Create a filter for the subject
+        FilterSubject filterSubject = new FilterSubject(subjectToSearch);
+
+        // Filter the received emails in the mailbox
+        List<Email> receivedEmails = mailbox.getReceivedEmails();
+        Filter filter = new Filter("Subject Filter");
+        filter.filter(receivedEmails, filterSubject);
+        List<Email> foundEmails = filter.getFoundEmails();
+
+        // Check if the subject exists in the mailbox
+        assertEquals(1, foundEmails.size());
+    }
+
+    @Test
+    public void testSubjectExistsInSenderMailbox() {
+        // Create a subject to search
+        String subjectToSearch = "Important Subject";
+
+        // Create a sender contact
+        Contact sender = emailManager.createContact("Sender", "sender@example.com");
+
+        // Create 100 recipient mailboxes and emails with the same subject
+        List<Mailbox> recipientMailboxes = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            Mailbox mailbox = new Mailbox();
+            recipientMailboxes.add(mailbox);
+            List<Contact> recipients = new ArrayList<>();
+            recipients.add(emailManager.createContact("Recipient", "recipient@example.com"));
+            Email email = Email.createEmail(subjectToSearch, "Email content", sender, recipients);
+            mailbox.addReceivedEmail(email);
+        }
+
+        // Create a sender mailbox and add received emails
+        Mailbox senderMailbox = new Mailbox();
+        List<Contact> recipients = new ArrayList<>();
+        recipients.add(emailManager.createContact("Recipient", "recipient@example.com"));
+        Email email = Email.createEmail(subjectToSearch, "Email content", sender, recipients);
+        senderMailbox.addReceivedEmail(email);
+
+        // Create a filter for the subject
+        FilterSubject filterSubject = new FilterSubject(subjectToSearch);
+
+        // Check if the subject exists in the sender's mailbox
+        List<Email> senderReceivedEmails = senderMailbox.getReceivedEmails();
+        Filter filter = new Filter("Subject Filter");
+        filter.filter(senderReceivedEmails, filterSubject);
+        List<Email> foundEmails = filter.getFoundEmails();
+        
+        assertEquals(1, foundEmails.size());
+    }
+}
+    
+
     
 
    
@@ -206,7 +277,7 @@ public class MailboxTest {
 
 
     
-    }
+    
 
 
 

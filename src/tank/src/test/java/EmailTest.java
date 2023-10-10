@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -27,10 +28,10 @@ public class EmailTest {
 
     @Before
     public void setUp() {
-        sender = new Contact("John Doe", "john.doe@example.com");
+        sender = new Contact("Sender", "sender@example.com");
         recipients = new ArrayList<>();
-        recipients.add(new Contact("Alice", "alice@example.com"));
-        recipients.add(new Contact("Bob", "bob@example.com"));
+        recipients.add(new Contact("Bruno", "brunito@example.com"));
+        recipients.add(new Contact("Paulina", "pauli@example.com"));
         emailManager = new EmailManager();
         recipient = emailManager.createContact("Recipient", "recipient@example.com");
         email = Email.createEmail("Test Subject", "Test Content", sender, new ArrayList<>());
@@ -91,6 +92,68 @@ public class EmailTest {
 
     @Test
     public void testSending100Emails() {
+        // Creamos una lista de contactos
+        List<Contact> contacts = new ArrayList<>();
+        for (int i = 1; i <= 100; i++) {
+            Contact contact = emailManager.createContact("Recipient " + i, "recipient" + i + "@example.com");
+            contacts.add(contact);
+        }
+
+        // Creo el contacto sender
+        Contact sender = emailManager.createContact("Sender", "sender@example.com");
+
+        // Creo los mailboxes para ambos contactos
+        Mailbox senderMailbox = Mailbox.senderMailbox(sender, emailManager.getMailboxes());
+        List<Mailbox> recipientMailboxes = new ArrayList<>();
+        for (Contact recipient : contacts) {
+            recipientMailboxes.add(Mailbox.recipientMailbox(recipient, emailManager.getMailboxes()));
+        }
+
+        // Envio 100 mails
+        for (Contact recipient : contacts) {
+            List<Contact> recipientList = new ArrayList<>();
+            recipientList.add(recipient);
+            Email email = Email.createEmail("Test Subject", "Test Content", sender, recipientList);
+            senderMailbox.addSentEmail(email);
+            recipientMailboxes.get(contacts.indexOf(recipient)).addReceivedEmail(email);
+        }
+
+        // Comprobamos mailbox del destinatario
+        for (Mailbox mailbox : recipientMailboxes) {
+            assertEquals(1, mailbox.getReceivedEmails().size());
+        }
+    }
+
+
+
+
+    
+    @Test
+    public void testSendingEmail() {
+        
+
+        // Creamos bandejas para el destinatario y remitente
+        Mailbox senderMailbox = Mailbox.senderMailbox(sender, emailManager.getMailboxes());
+        Mailbox recipientMailbox = Mailbox.recipientMailbox(recipient, emailManager.getMailboxes());
+
+        // Mandamos un mail
+        recipients.add(recipient);
+        Email email = Email.createEmail("Test Subject", "Test Content", sender, recipients);
+        senderMailbox.addSentEmail(email);
+        recipientMailbox.addReceivedEmail(email);
+
+        // Verificamos que el destinatario recibió el mail
+        assertEquals(1, recipientMailbox.getReceivedEmails().size());
+    }
+
+
+
+
+
+
+
+    @Test
+    public void testSending100EmailsInSendersMailbox() {
         // Create a list of contacts
         List<Contact> contacts = new ArrayList<>();
         for (int i = 1; i <= 100; i++) {
@@ -117,11 +180,11 @@ public class EmailTest {
             recipientMailboxes.get(contacts.indexOf(recipient)).addReceivedEmail(email);
         }
 
-        // Verify that each recipient has received an email
-        for (Mailbox mailbox : recipientMailboxes) {
-            assertEquals(1, mailbox.getReceivedEmails().size());
-        }
+        // Verify that the sender's mailbox contains all 100 sent emails
+        assertEquals(100, senderMailbox.getSentEmails().size());
     }
+
+    
     
     
 

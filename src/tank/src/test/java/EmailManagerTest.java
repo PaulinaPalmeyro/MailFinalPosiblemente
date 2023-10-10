@@ -20,10 +20,10 @@ public class EmailManagerTest {
 
     @Test
     public void testCreateContact() { //se puede crear un contacto
-        Contact contact = emailManager.createContact("John Doe", "johndoe@example.com");
+        Contact contact = emailManager.createContact("Bruno Pini", "brunito@example.com");
         assertNotNull(contact);
-        assertEquals("John Doe", contact.getName());
-        assertEquals("johndoe@example.com", contact.getEmail());
+        assertEquals("Bruno Pini", contact.getName());
+        assertEquals("brunito@example.com", contact.getEmail());
     }
 
     @Test

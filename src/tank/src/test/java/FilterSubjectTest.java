@@ -32,10 +32,10 @@ public class FilterSubjectTest {
     public void setUp() {
         // Initialize the list of emails for testing
         emails = new ArrayList<>();
-        Contact sender = new Contact("John Doe", "john@example.com");
+        Contact sender = new Contact("gatito", "gatitomiau@example.com");
         List<Contact> recipients = new ArrayList<>();
-        recipients.add(new Contact("Alice", "alice@example.com"));
-        recipients.add(new Contact("Bob", "bob@example.com"));
+        recipients.add(new Contact("Paulina", "pauli@example.com"));
+        recipients.add(new Contact("totoro", "totoro@example.com"));
 
         // Create some sample emails
         emails.add(new Email("Important Subject", "Content", sender, recipients));
