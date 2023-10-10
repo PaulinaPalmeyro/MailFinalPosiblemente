@@ -32,10 +32,7 @@ public class Mailbox {
             if (mailbox.getSentEmails().isEmpty()) {
                 continue;
             }
-            Email firstSentEmail = mailbox.getSentEmails().get(0);
-            if (firstSentEmail.getSender().equals(sender)) {
-                return mailbox;
-            }
+            
         }
         Mailbox mailbox = new Mailbox();
         mailboxes.add(mailbox);
@@ -47,13 +44,31 @@ public class Mailbox {
             if (mailbox.getReceivedEmails().isEmpty()) {
                 continue;
             }
-            Email firstReceivedEmail = mailbox.getReceivedEmails().get(0);
-            if (firstReceivedEmail.getRecipients().contains(recipient)) {
-                return mailbox;
-            }
+            
         }
         Mailbox mailbox = new Mailbox();
         mailboxes.add(mailbox);
         return mailbox;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
