@@ -28,11 +28,6 @@ public class Contact {
         return email != null && email.contains("@");
     }
 
-    public static Contact createContact(String name, String email, List<Contact> contacts) {
-        Contact contact = new Contact(name, email);
-        contacts.add(contact);
-        return contact;
-    }
 }
 
 
